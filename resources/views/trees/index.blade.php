@@ -49,7 +49,7 @@
                         <th class="py-4 px-6">ID & Foto</th>
                         <th class="py-4 px-6">Nama & Spesies</th>
                         <th class="py-4 px-6">Tanggal & Umur</th>
-                        <th class="py-4 px-6">Lokasi & Titik GPS</th>
+                        <th class="py-4 px-6">Lokasi & Area</th>
                         <th class="py-4 px-6">Est. Karbon</th>
                         <th class="py-4 px-6">QR Code</th>
                         <th class="py-4 px-6 text-right">Aksi</th>
@@ -101,11 +101,17 @@
 
                             <!-- Lokasi & Koordinat -->
                             <td class="py-4 px-6">
-                                <div class="text-xs font-semibold text-slate-700">{{ $tree->lokasi_taman ?? 'Area Publik' }}</div>
-                                <a href="{{ $tree->google_maps_url }}" target="_blank" class="inline-flex items-center text-[11px] text-emerald-600 hover:text-emerald-800 hover:underline mt-0.5 font-mono">
-                                    <i class="fa-solid fa-map-pin mr-1 text-emerald-500"></i>
-                                    {{ round($tree->kordinat_lat, 5) }}, {{ round($tree->kordinat_lng, 5) }}
-                                </a>
+                                <div class="text-xs font-semibold text-slate-700">{{ $tree->lokasi_taman ?? 'Area Sekolah' }}</div>
+                                @if($tree->hasCoordinates())
+                                    <a href="{{ $tree->google_maps_url }}" target="_blank" class="inline-flex items-center text-[11px] text-emerald-600 hover:text-emerald-800 hover:underline mt-0.5 font-mono">
+                                        <i class="fa-solid fa-map-pin mr-1 text-emerald-500"></i>
+                                        {{ round($tree->kordinat_lat, 5) }}, {{ round($tree->kordinat_lng, 5) }}
+                                    </a>
+                                @else
+                                    <span class="inline-flex items-center text-[11px] text-slate-400 mt-0.5">
+                                        <i class="fa-solid fa-location-dot mr-1 text-emerald-500"></i> Area Sekolah
+                                    </span>
+                                @endif
                             </td>
 
                             <!-- Estimasi Karbon -->

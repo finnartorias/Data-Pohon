@@ -111,7 +111,7 @@
                 <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
                     <span class="block text-[10px] uppercase font-bold text-slate-400">Umur Pohon</span>
                     <span class="text-xs font-bold text-slate-800">{{ $tree->umur }}</span>
-                    <span class="block text-[9px] text-slate-400 mt-0.5">Tanam: {{ $tree->tanggal_tanam->format('d/m/Y') }}</span>
+                    <span class="block text-[9px] text-slate-400 mt-0.5">Tanam: {{ $tree->tanggal_tanam ? $tree->tanggal_tanam->format('d/m/Y') : '-' }}</span>
                 </div>
                 <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-100">
                     <span class="block text-[10px] uppercase font-bold text-slate-400">Serapan Karbon</span>

@@ -87,9 +87,9 @@
                     <!-- Tanggal Tanam -->
                     <div>
                         <label for="tanggal_tanam" class="block text-xs font-bold text-slate-700 mb-1.5">
-                            Tanggal Penanaman <span class="text-red-500">*</span>
+                            Tanggal Penanaman <span class="text-xs font-normal text-slate-400">(Opsional)</span>
                         </label>
-                        <input type="date" name="tanggal_tanam" id="tanggal_tanam" required
+                        <input type="date" name="tanggal_tanam" id="tanggal_tanam"
                             value="{{ old('tanggal_tanam', $tree->tanggal_tanam ? $tree->tanggal_tanam->format('Y-m-d') : '') }}"
                             class="w-full px-4 py-2.5 rounded-xl border {{ $errors->has('tanggal_tanam') ? 'border-red-400 bg-red-50/50' : 'border-slate-200' }} focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm transition-all">
                         @error('tanggal_tanam')
@@ -135,11 +135,11 @@
                 </div>
             </div>
 
-            <!-- Section 3: Koordinat Lokasi Peta (GIS) -->
+            <!-- Section 3: Koordinat Lokasi Peta (Opsional) -->
             <div class="pt-6 border-t border-slate-100">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
                     <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-800 flex items-center">
-                        <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2"></span> Titik Koordinat GPS & Peta Interaktif
+                        <span class="w-2 h-2 rounded-full bg-slate-400 mr-2"></span> Titik Koordinat GPS (Opsional)
                     </h3>
                     <button type="button" onclick="getCurrentLocation()" class="inline-flex items-center text-xs font-semibold px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 transition-colors">
                         <i class="fa-solid fa-location-crosshairs mr-1.5"></i> Gunakan Lokasi GPS Saya
@@ -150,20 +150,20 @@
                     <!-- Latitude -->
                     <div>
                         <label for="kordinat_lat" class="block text-xs font-bold text-slate-700 mb-1.5">
-                            Latitude (Lintang) <span class="text-red-500">*</span>
+                            Latitude (Lintang) <span class="text-xs font-normal text-slate-400">(Opsional)</span>
                         </label>
-                        <input type="number" step="0.0000001" name="kordinat_lat" id="kordinat_lat" required
-                            value="{{ old('kordinat_lat', $tree->kordinat_lat) }}"
+                        <input type="number" step="0.0000001" name="kordinat_lat" id="kordinat_lat"
+                            value="{{ old('kordinat_lat', $tree->kordinat_lat) }}" placeholder="Contoh: -0.4862000"
                             class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm font-mono font-semibold transition-all">
                     </div>
 
                     <!-- Longitude -->
                     <div>
                         <label for="kordinat_lng" class="block text-xs font-bold text-slate-700 mb-1.5">
-                            Longitude (Bujur) <span class="text-red-500">*</span>
+                            Longitude (Bujur) <span class="text-xs font-normal text-slate-400">(Opsional)</span>
                         </label>
-                        <input type="number" step="0.0000001" name="kordinat_lng" id="kordinat_lng" required
-                            value="{{ old('kordinat_lng', $tree->kordinat_lng) }}"
+                        <input type="number" step="0.0000001" name="kordinat_lng" id="kordinat_lng"
+                            value="{{ old('kordinat_lng', $tree->kordinat_lng) }}" placeholder="Contoh: 117.1578000"
                             class="w-full px-4 py-2.5 rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm font-mono font-semibold transition-all">
                     </div>
                 </div>

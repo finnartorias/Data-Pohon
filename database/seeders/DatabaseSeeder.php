@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 2. Impor Data Pohon Nyata dari Kawasan SMKKN
-        $this->call(SmkknTreeSeeder::class);
+        // 2. Impor Data Pohon Nyata Pengukuran Karbon Sekolah (Tanpa GPS)
+        $this->call(SekolahTreeSeeder::class);
     }
 }

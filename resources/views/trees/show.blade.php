@@ -60,7 +60,7 @@
                                 </span>
                             @endif
                             <span class="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md text-white text-xs font-semibold">
-                                <i class="fa-regular fa-calendar mr-1"></i> Tanam: {{ $tree->tanggal_tanam->translatedFormat('d F Y') }}
+                                <i class="fa-regular fa-calendar mr-1"></i> Tanam: {{ $tree->tanggal_tanam ? $tree->tanggal_tanam->translatedFormat('d F Y') : '-' }}
                             </span>
                         </div>
                         <h1 class="text-2xl md:text-3xl font-black tracking-tight text-white">{{ $tree->nama_pohon }}</h1>
@@ -135,7 +135,8 @@
                 </div>
             </div>
 
-            <!-- Lokasi & Peta Leaflet (Collapsible / Hidden by Default) -->
+            <!-- Lokasi & Peta (Jika memiliki GPS) atau Info Area Sekolah -->
+            @if($tree->hasCoordinates())
             <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden transition-all">
                 <button type="button" onclick="toggleAdminLocationMap()" id="btn-admin-map-toggle"
                     class="w-full p-6 flex items-center justify-between text-left hover:bg-slate-50 transition-colors focus:outline-none">
@@ -163,7 +164,7 @@
 
                 <div id="admin-map-container" class="hidden border-t border-slate-100 p-6 space-y-4 bg-slate-50/50">
                     <div class="flex items-center justify-between">
-                        <span class="text-xs text-slate-500">Peta Sebaran Titik Pohon di Kawasan Arboretum SMKKN</span>
+                        <span class="text-xs text-slate-500">Peta Sebaran Titik Pohon di Kawasan Sekolah</span>
                         <a href="{{ $tree->google_maps_url }}" target="_blank" class="inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 text-emerald-700 hover:bg-emerald-100 text-xs font-semibold transition-colors">
                             <i class="fa-solid fa-map-location-dot"></i>
                             <span>Buka di Google Maps</span>
@@ -172,6 +173,24 @@
                     <div id="tree-map" class="w-full h-64 rounded-2xl border border-slate-200 z-10 shadow-inner"></div>
                 </div>
             </div>
+            @else
+            <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-6 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-base">
+                        <i class="fa-solid fa-location-dot"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-900 text-base">Lokasi Penanaman</h3>
+                        <p class="text-xs text-slate-500 mt-0.5">
+                            {{ $tree->lokasi_taman ?? 'Area Lingkungan Sekolah SMKKN' }}
+                        </p>
+                    </div>
+                </div>
+                <span class="text-xs font-medium px-3 py-1 bg-slate-100 text-slate-600 rounded-full">
+                    Tanpa GPS
+                </span>
+            </div>
+            @endif
         </div>
 
         <!-- Column 3: QR Code Card & Quick Print -->
@@ -252,6 +271,7 @@
 @endsection
 
 @push('scripts')
+@if($tree->hasCoordinates())
 <script>
     let adminMap = null;
     let adminMapInitialized = false;
@@ -284,8 +304,8 @@
     }
 
     function initAdminMap() {
-        const lat = {{ $tree->kordinat_lat }};
-        const lng = {{ $tree->kordinat_lng }};
+        const lat = {{ $tree->kordinat_lat ?? 0 }};
+        const lng = {{ $tree->kordinat_lng ?? 0 }};
 
         setTimeout(() => {
             adminMap = L.map('tree-map', {
@@ -304,4 +324,5 @@
         }, 100);
     }
 </script>
+@endif
 @endpush

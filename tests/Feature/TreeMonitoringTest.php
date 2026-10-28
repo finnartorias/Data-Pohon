@@ -173,4 +173,33 @@ class TreeMonitoringTest extends TestCase
         $this->assertDatabaseMissing('trees', ['id' => $tree->id]);
         Storage::disk('public')->assertMissing($qrPath);
     }
+
+    /**
+     * Test admin can store and view a tree without GPS coordinates.
+     */
+    public function test_admin_can_store_tree_without_gps_coordinates(): void
+    {
+        Storage::fake('public');
+        $admin = User::factory()->create();
+
+        $response = $this->actingAs($admin)->post('/trees', [
+            'id_pohon' => 'TREE-NOGPS-01',
+            'nama_pohon' => 'Ketapang Kencana Sekolah',
+            'nama_latin' => 'Terminalia mantaly',
+            'estimasi_karbon' => 1138.68,
+            'lokasi_taman' => 'Area Lingkungan Sekolah',
+        ]);
+
+        $response->assertRedirect();
+        $this->assertDatabaseHas('trees', [
+            'id_pohon' => 'TREE-NOGPS-01',
+            'kordinat_lat' => null,
+            'kordinat_lng' => null,
+        ]);
+
+        $publicResponse = $this->get('/pohon/public/TREE-NOGPS-01');
+        $publicResponse->assertStatus(200);
+        $publicResponse->assertSee('Ketapang Kencana Sekolah');
+        $publicResponse->assertSee('Area Terdata');
+    }
 }

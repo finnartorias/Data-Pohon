@@ -19,6 +19,7 @@ class Tree extends Model
         'nama_pohon',
         'nama_latin',
         'diameter',
+        'tinggi',
         'tingkat',
         'berat_jenis',
         'biomassa_agb',
@@ -36,6 +37,7 @@ class Tree extends Model
     protected $casts = [
         'tanggal_tanam' => 'date',
         'diameter' => 'decimal:2',
+        'tinggi' => 'decimal:2',
         'berat_jenis' => 'decimal:3',
         'biomassa_agb' => 'decimal:2',
         'cadangan_karbon' => 'decimal:3',
@@ -121,11 +123,22 @@ class Tree extends Model
     }
 
     /**
-     * URL ke Google Maps berdasarkan koordinat pohon.
+     * Cek apakah pohon memiliki titik koordinat GPS.
      */
-    public function getGoogleMapsUrlAttribute(): string
+    public function hasCoordinates(): bool
     {
-        return "https://www.google.com/maps?q={$this->kordinat_lat},{$this->kordinat_lng}";
+        return !is_null($this->kordinat_lat) && !is_null($this->kordinat_lng);
+    }
+
+    /**
+     * URL ke Google Maps berdasarkan koordinat pohon (jika tersedia).
+     */
+    public function getGoogleMapsUrlAttribute(): ?string
+    {
+        if ($this->hasCoordinates()) {
+            return "https://www.google.com/maps?q={$this->kordinat_lat},{$this->kordinat_lng}";
+        }
+        return null;
     }
 
     /**

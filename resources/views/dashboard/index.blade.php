@@ -100,7 +100,8 @@
         </div>
     </div>
 
-    <!-- Interactive Map Section -->
+    <!-- Map or Inventory Summary Section -->
+    @if(count($treeMarkers) > 0)
     <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm p-6">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 mb-4">
             <div>
@@ -116,6 +117,22 @@
         </div>
         <div id="dashboard-map" class="w-full h-80 md:h-96 rounded-xl border border-slate-200 z-10"></div>
     </div>
+    @else
+    <div class="bg-gradient-to-r from-emerald-50 via-teal-50 to-slate-50 rounded-2xl border border-emerald-100 p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="flex items-center space-x-4">
+            <div class="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center text-xl flex-shrink-0 shadow-sm">
+                <i class="fa-solid fa-tree"></i>
+            </div>
+            <div>
+                <h4 class="font-bold text-slate-900 text-base">Inventarisasi Karbon Lingkungan Sekolah</h4>
+                <p class="text-xs text-slate-600 mt-0.5">Seluruh <strong>{{ number_format($totalTrees) }} pohon</strong> terdaftar menggunakan identifikasi kode QR dan area sekolah tanpa memerlukan koordinat GPS.</p>
+            </div>
+        </div>
+        <a href="{{ route('trees.index') }}" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-semibold shadow-sm transition-colors whitespace-nowrap">
+            Kelola Semua Pohon &rarr;
+        </a>
+    </div>
+    @endif
 
     <!-- Recent Trees Table -->
     <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm overflow-hidden">
@@ -213,14 +230,14 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const treeMarkers = @json($treeMarkers);
+        const mapContainer = document.getElementById('dashboard-map');
 
-        let defaultLat = -6.1753924;
-        let defaultLng = 106.8271528;
-
-        if (treeMarkers.length > 0) {
-            defaultLat = treeMarkers[0].kordinat_lat;
-            defaultLng = treeMarkers[0].kordinat_lng;
+        if (!mapContainer || !treeMarkers || treeMarkers.length === 0) {
+            return;
         }
+
+        let defaultLat = treeMarkers[0].kordinat_lat;
+        let defaultLng = treeMarkers[0].kordinat_lng;
 
         const map = L.map('dashboard-map').setView([defaultLat, defaultLng], 15);
 

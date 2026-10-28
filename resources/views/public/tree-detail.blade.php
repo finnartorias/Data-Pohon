@@ -168,7 +168,7 @@
                             </h3>
                             <p class="text-xs sm:text-sm text-emerald-100 mt-1.5 flex items-center">
                                 <i class="fa-regular fa-calendar-check mr-2"></i>
-                                Perkiraan Tanam: {{ $tree->tanggal_tanam->translatedFormat('d F Y') }}
+                                Perkiraan Tanam: {{ $tree->tanggal_tanam ? $tree->tanggal_tanam->translatedFormat('d F Y') : '-' }}
                             </p>
                         </div>
                         <div class="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-3xl font-bold self-start sm:self-center flex-shrink-0">
@@ -270,8 +270,8 @@
                     @endif
                 </div>
 
-                <!-- 4. LOKASI PENANAMAN: HIDDEN BY DEFAULT (Sesuai Permintaan) -->
-                <!-- Toggle Button to Show/Hide Location -->
+                <!-- 4. LOKASI PENANAMAN (Peta GPS jika ada, atau Info Area Sekolah) -->
+                @if($tree->hasCoordinates())
                 <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm overflow-hidden transition-all">
                     
                     <!-- Header Action Bar with Interactive Toggle -->
@@ -286,7 +286,7 @@
                                     <span>Lokasi Penanaman & Peta GPS</span>
                                 </h3>
                                 <p class="text-xs text-slate-500 mt-0.5">
-                                    {{ $tree->lokasi_taman ?? 'Arboretum SMKKN' }} &bull; <span class="text-emerald-600 font-semibold">Klik untuk melihat peta</span>
+                                    {{ $tree->lokasi_taman ?? 'Lingkungan Sekolah SMKKN' }} &bull; <span class="text-emerald-600 font-semibold">Klik untuk melihat peta</span>
                                 </p>
                             </div>
                         </div>
@@ -322,6 +322,24 @@
                         </a>
                     </div>
                 </div>
+                @else
+                <div class="bg-white rounded-3xl border border-slate-200/80 shadow-sm p-5 sm:p-6 flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center text-base flex-shrink-0">
+                            <i class="fa-solid fa-location-dot"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-sm sm:text-base font-bold text-slate-900">Lokasi Penanaman</h3>
+                            <p class="text-xs text-slate-500 mt-0.5">
+                                {{ $tree->lokasi_taman ?? 'Area Lingkungan Sekolah SMKKN' }}
+                            </p>
+                        </div>
+                    </div>
+                    <span class="text-xs font-semibold px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                        Area Terdata
+                    </span>
+                </div>
+                @endif
 
                 <!-- 5. Mobile Share Button (Visible only on Mobile) -->
                 <div class="lg:hidden pt-2">
@@ -393,9 +411,10 @@
             }
         }
 
+        @if($tree->hasCoordinates())
         function initLeafletMap() {
-            const lat = {{ $tree->kordinat_lat }};
-            const lng = {{ $tree->kordinat_lng }};
+            const lat = {{ $tree->kordinat_lat ?? 0 }};
+            const lng = {{ $tree->kordinat_lng ?? 0 }};
 
             setTimeout(() => {
                 mapInstance = L.map('public-tree-map', {
@@ -413,6 +432,9 @@
                 mapInstance.invalidateSize();
             }, 100);
         }
+        @else
+        function initLeafletMap() {}
+        @endif
 
         function shareTree() {
             if (navigator.share) {
