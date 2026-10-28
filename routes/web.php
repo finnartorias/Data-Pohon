@@ -12,13 +12,8 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-// Beranda: Redirect ke dashboard jika sudah login, atau portal publik
-Route::get('/', function () {
-    if (auth()->check()) {
-        return redirect()->route('dashboard');
-    }
-    return redirect()->route('trees.index');
-})->name('home');
+// Beranda: Portal Publik Eksplorasi Pohon SMKKN (Tanpa Wajib Login)
+Route::get('/', [PublicTreeController::class, 'index'])->name('home');
 
 // Halaman Publik (Tanpa Login / Scan QR Code)
 Route::get('/pohon/public/{id_pohon}', [PublicTreeController::class, 'show'])->name('pohon.public');

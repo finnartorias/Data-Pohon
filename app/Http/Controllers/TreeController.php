@@ -44,9 +44,14 @@ class TreeController extends Controller
      */
     public function create()
     {
-        // Berikan saran ID Pohon berikutnya (misal: TREE-006)
+        // Berikan saran ID Pohon berikutnya (SMKKN-039 dsb)
+        $latestTree = Tree::latest('id')->first();
+        $prefix = 'SMKKN-';
+        if ($latestTree && preg_match('/^([A-Za-z]+-)/', $latestTree->id_pohon, $m)) {
+            $prefix = $m[1];
+        }
         $latestId = Tree::max('id') ?? 0;
-        $suggestedCode = 'TREE-' . str_pad($latestId + 1, 3, '0', STR_PAD_LEFT);
+        $suggestedCode = $prefix . str_pad($latestId + 1, 3, '0', STR_PAD_LEFT);
 
         return view('trees.create', compact('suggestedCode'));
     }
