@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="id" class="h-full bg-slate-50">
+<html lang="id" class="h-full bg-slate-100">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'Sistem Monitoring Pohon QR') &bull; EcoTree QR</title>
+    <title>@yield('title', 'Sistem Inventarisasi Pohon') &bull; SI-Pohon SMKKN</title>
     
-    <!-- Google Fonts: Plus Jakarta Sans -->
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -20,27 +20,19 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
-                        serif: ['"Playfair Display"', 'serif'],
+                        sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
                     },
                     colors: {
-                        brand: {
-                            50: '#f0fdf4',
-                            100: '#dcfce7',
-                            200: '#bbf7d0',
-                            300: '#86efac',
-                            400: '#4ade80',
-                            500: '#22c55e',
-                            600: '#16a34a',
-                            700: '#15803d',
-                            800: '#166534',
-                            900: '#14532d',
-                            950: '#032311',
+                        forest: {
+                            50: '#f2f7f4',
+                            100: '#e1ede6',
+                            600: '#1e6f43',
+                            700: '#185936',
+                            800: '#14472c',
+                            900: '#0f3621',
+                            950: '#092114',
                         }
-                    },
-                    boxShadow: {
-                        'subtle': '0 2px 15px -3px rgba(0, 0, 0, 0.04), 0 4px 6px -2px rgba(0, 0, 0, 0.02)',
-                        'card': '0 4px 20px -2px rgba(0, 0, 0, 0.05)',
                     }
                 }
             }
@@ -52,152 +44,129 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { font-family: 'Inter', system-ui, sans-serif; }
     </style>
     @stack('styles')
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-800 antialiased flex flex-col md:flex-row selection:bg-emerald-500 selection:text-white">
+<body class="min-h-screen bg-slate-100 text-slate-800 antialiased flex flex-col md:flex-row">
 
-    <!-- Mobile Sidebar Backdrop (Klik untuk tutup di layar HP) -->
-    <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-30 hidden md:hidden transition-opacity duration-300"></div>
+    <!-- Mobile Sidebar Backdrop -->
+    <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-30 hidden md:hidden"></div>
 
-    <!-- Sidebar Navigation (Collapsible / Bisa Disembunyikan) -->
-    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 bg-gradient-to-b from-brand-950 via-slate-950 to-slate-950 text-white transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col shadow-2xl border-r border-white/5">
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-64 bg-slate-900 text-slate-200 transform -translate-x-full md:translate-x-0 transition-transform duration-200 ease-in-out flex flex-col border-r border-slate-800">
         
-        <!-- Brand Header & Tombol Sembunyikan -->
-        <div class="p-5 border-b border-white/10 flex items-center justify-between">
-            <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 group">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-emerald-400 flex items-center justify-center text-slate-950 text-lg font-black shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
-                    <i class="fa-solid fa-tree text-white"></i>
+        <!-- Brand Header -->
+        <div class="px-5 py-4 border-b border-slate-800 flex items-center justify-between bg-slate-950/40">
+            <div class="flex items-center space-x-3">
+                <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white text-sm font-bold shadow-sm">
+                    <i class="fa-solid fa-tree"></i>
                 </div>
                 <div>
-                    <div class="flex items-center space-x-1">
-                        <span class="font-extrabold text-base tracking-tight text-white leading-tight">EcoTree</span>
-                        <span class="font-extrabold text-base tracking-tight text-emerald-400 leading-tight">QR</span>
-                    </div>
-                    <p class="text-[10px] text-emerald-300/70 font-semibold tracking-wider uppercase">Sistem Monitoring Pohon</p>
+                    <h1 class="text-sm font-bold text-white tracking-tight">SI-POHON SMKKN</h1>
+                    <p class="text-[11px] text-slate-400">Database & Inventarisasi</p>
                 </div>
-            </a>
+            </div>
             
-            <!-- Tombol Sembunyikan Menu (Bekerja di HP & Desktop) -->
-            <button onclick="toggleSidebar()" type="button" title="Sembunyikan Sidebar" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-all active:scale-95">
+            <button onclick="toggleSidebar()" type="button" title="Tutup Menu" class="text-slate-400 hover:text-white p-1.5 rounded-md hover:bg-slate-800 transition-colors">
                 <i class="fa-solid fa-chevron-left text-xs"></i>
             </button>
         </div>
 
         <!-- Navigation Links -->
-        <nav class="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
-            <div class="px-3 pb-2 text-[10px] font-bold tracking-wider text-slate-400 uppercase">Menu Utama Admin</div>
+        <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
+            <div class="px-3 pt-2 pb-1.5 text-[10px] font-bold tracking-wider text-slate-400 uppercase">Navigasi Utama</div>
             
-            <a href="{{ route('dashboard') }}" class="flex items-center px-4 py-3 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs('dashboard') ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
-                <i class="fa-solid fa-chart-pie w-6 text-sm {{ request()->routeIs('dashboard') ? 'text-white' : 'text-emerald-400' }}"></i>
-                <span>Dashboard Ringkasan</span>
+            <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('dashboard') ? 'bg-emerald-700 text-white font-bold' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+                <i class="fa-solid fa-gauge-high w-4 text-center text-sm"></i>
+                <span>Ringkasan Dashboard</span>
             </a>
 
-            <a href="{{ route('trees.index') }}" class="flex items-center px-4 py-3 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs('trees.index', 'trees.show', 'trees.edit') ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
-                <i class="fa-solid fa-tree-city w-6 text-sm {{ request()->routeIs('trees.index', 'trees.show', 'trees.edit') ? 'text-white' : 'text-emerald-400' }}"></i>
-                <span>Daftar Data Pohon</span>
+            <a href="{{ route('trees.index') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('trees.index', 'trees.show', 'trees.edit') ? 'bg-emerald-700 text-white font-bold' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+                <i class="fa-solid fa-table-list w-4 text-center text-sm"></i>
+                <span>Database Pohon</span>
             </a>
 
-            <a href="{{ route('trees.create') }}" class="flex items-center px-4 py-3 rounded-2xl text-xs font-bold transition-all {{ request()->routeIs('trees.create') ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/30' : 'text-slate-300 hover:bg-white/5 hover:text-white' }}">
-                <i class="fa-solid fa-circle-plus w-6 text-sm {{ request()->routeIs('trees.create') ? 'text-white' : 'text-emerald-400' }}"></i>
-                <span>Tambah Pohon Baru</span>
+            <a href="{{ route('trees.create') }}" class="flex items-center space-x-3 px-3 py-2 rounded-lg text-xs font-semibold transition-colors {{ request()->routeIs('trees.create') ? 'bg-emerald-700 text-white font-bold' : 'text-slate-300 hover:bg-slate-800 hover:text-white' }}">
+                <i class="fa-solid fa-square-plus w-4 text-center text-sm"></i>
+                <span>Input Pohon Baru</span>
             </a>
         </nav>
 
         <!-- Admin Profile & Logout -->
-        <div class="p-4 border-t border-white/10 bg-slate-950/60">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 rounded-2xl bg-emerald-800 text-emerald-200 flex items-center justify-center font-bold text-sm ring-2 ring-emerald-500/30">
-                        {{ substr(auth()->user()->name ?? 'A', 0, 1) }}
-                    </div>
-                    <div class="truncate max-w-[120px]">
-                        <p class="text-xs font-bold text-white truncate">{{ auth()->user()->name ?? 'Administrator' }}</p>
-                        <p class="text-[11px] text-slate-400 truncate">{{ auth()->user()->email ?? 'admin@pohon.id' }}</p>
-                    </div>
+        <div class="p-3 border-t border-slate-800 bg-slate-950/60 flex items-center justify-between">
+            <div class="flex items-center space-x-2.5 truncate">
+                <div class="w-7 h-7 rounded-md bg-slate-800 text-slate-300 flex items-center justify-center font-bold text-xs border border-slate-700">
+                    {{ substr(auth()->user()->name ?? 'A', 0, 1) }}
                 </div>
-                <form action="{{ route('logout') }}" method="POST" class="inline">
-                    @csrf
-                    <button type="submit" title="Keluar / Logout" class="w-9 h-9 rounded-xl bg-white/5 hover:bg-red-500/20 text-slate-400 hover:text-red-400 flex items-center justify-center transition-all">
-                        <i class="fa-solid fa-right-from-bracket text-xs"></i>
-                    </button>
-                </form>
+                <div class="truncate">
+                    <p class="text-xs font-semibold text-white truncate">{{ auth()->user()->name ?? 'Administrator' }}</p>
+                    <p class="text-[10px] text-slate-400 truncate">{{ auth()->user()->email ?? 'admin@pohon.id' }}</p>
+                </div>
             </div>
+            <form action="{{ route('logout') }}" method="POST" class="inline">
+                @csrf
+                <button type="submit" title="Keluar Akun" class="p-1.5 rounded-md text-slate-400 hover:text-rose-400 hover:bg-slate-800 transition-colors">
+                    <i class="fa-solid fa-arrow-right-from-bracket text-xs"></i>
+                </button>
+            </form>
         </div>
     </aside>
 
-    <!-- Main Content Area (Auto-Expand Saat Menu Disembunyikan) -->
-    <div id="main-content" class="flex-1 flex flex-col md:ml-72 min-h-screen transition-all duration-300 ease-in-out">
+    <!-- Main Content Area -->
+    <div id="main-content" class="flex-1 flex flex-col md:ml-64 min-h-screen transition-all duration-200">
         
-        <!-- Universal Topbar (Desktop & Mobile) -->
-        <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-20 px-4 sm:px-6 py-3 flex items-center justify-between shadow-2xs">
+        <!-- Institutional Header Topbar -->
+        <header class="bg-white border-b border-slate-200 sticky top-0 z-20 px-4 sm:px-6 py-2.5 flex items-center justify-between">
             <div class="flex items-center space-x-3">
-                <!-- Tombol Toggle Sidebar -->
-                <button onclick="toggleSidebar()" type="button" title="Sembunyikan / Tampilkan Menu" class="inline-flex items-center space-x-2 px-3 py-2 rounded-2xl bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 text-xs font-bold transition-all active:scale-95 border border-slate-200/80 shadow-2xs">
-                    <i class="fa-solid fa-bars text-sm"></i>
-                    <span id="btn-sidebar-label" class="hidden sm:inline">Menu Navigasi</span>
+                <button onclick="toggleSidebar()" type="button" class="p-1.5 rounded-md border border-slate-200 text-slate-600 hover:bg-slate-100 hover:text-slate-900 transition-colors text-xs font-medium flex items-center space-x-1.5">
+                    <i class="fa-solid fa-bars"></i>
+                    <span class="hidden sm:inline">Menu</span>
                 </button>
 
-                <div class="hidden sm:flex items-center space-x-2 pl-2 border-l border-slate-200 text-xs text-slate-500 font-medium">
-                    <span class="font-bold text-slate-800 truncate">@yield('title', 'Sistem Monitoring Pohon QR')</span>
+                <div class="h-4 w-px bg-slate-200 hidden sm:block"></div>
+
+                <div class="text-xs">
+                    <span class="text-slate-500 font-normal">Panel Admin: </span>
+                    <span class="font-semibold text-slate-800">@yield('title', 'Sistem Inventarisasi Pohon')</span>
                 </div>
             </div>
 
-            <div class="flex items-center space-x-2.5">
-                <a href="{{ route('trees.create') }}" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-sm flex items-center space-x-1.5 transition-all active:scale-95">
+            <div class="flex items-center space-x-2">
+                <a href="{{ route('trees.create') }}" class="px-3 py-1.5 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold shadow-xs flex items-center space-x-1.5 transition-colors">
                     <i class="fa-solid fa-plus text-[10px]"></i>
-                    <span class="hidden xs:inline">Pohon Baru</span>
+                    <span>Tambah Data</span>
                 </a>
-
-                <div class="h-6 w-px bg-slate-200 hidden sm:block"></div>
-
-                <div class="hidden sm:flex items-center space-x-2">
-                    <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">
-                        {{ substr(auth()->user()->name ?? 'A', 0, 1) }}
-                    </div>
-                    <span class="text-xs font-bold text-slate-700">{{ auth()->user()->name ?? 'Admin' }}</span>
-                </div>
             </div>
         </header>
 
         <!-- Flash Messages & Main Views -->
-        <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-6">
+        <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto space-y-5">
             @if(session('success'))
-                <div class="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 flex items-start space-x-3 shadow-subtle animate-fade-in">
-                    <div class="w-7 h-7 rounded-xl bg-emerald-500 text-white flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <i class="fa-solid fa-check text-xs"></i>
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="font-bold text-xs uppercase tracking-wider text-emerald-900">Operasi Berhasil</h4>
-                        <p class="text-xs text-emerald-700 mt-0.5">{{ session('success') }}</p>
-                    </div>
+                <div class="p-3.5 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-center space-x-2.5 text-xs">
+                    <i class="fa-solid fa-circle-check text-emerald-600 text-sm"></i>
+                    <span class="font-medium">{{ session('success') }}</span>
                 </div>
             @endif
 
             @if(session('error'))
-                <div class="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 flex items-start space-x-3 shadow-subtle">
-                    <div class="w-7 h-7 rounded-xl bg-red-500 text-white flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <i class="fa-solid fa-triangle-exclamation text-xs"></i>
-                    </div>
-                    <div class="flex-1">
-                        <h4 class="font-bold text-xs uppercase tracking-wider text-red-900">Terjadi Kendala</h4>
-                        <p class="text-xs text-red-700 mt-0.5">{{ session('error') }}</p>
-                    </div>
+                <div class="p-3.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-900 flex items-center space-x-2.5 text-xs">
+                    <i class="fa-solid fa-circle-exclamation text-rose-600 text-sm"></i>
+                    <span class="font-medium">{{ session('error') }}</span>
                 </div>
             @endif
 
             @yield('content')
         </main>
 
-        <!-- Footer -->
-        <footer class="bg-white border-t border-slate-200/80 px-6 py-4 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-2">
-            <p>&copy; {{ date('Y') }} Sistem Monitoring Pohon Berbasis QR Code &bull; SMKKN</p>
-            <p class="text-slate-400">Laravel 12 &bull; Simple QrCode &bull; Modern UI</p>
+        <!-- Minimal Footer -->
+        <footer class="bg-white border-t border-slate-200 px-6 py-3 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-1">
+            <p>Sistem Informasi Inventarisasi Pohon &bull; SMK Kehutanan Negeri</p>
+            <p class="text-slate-400 font-mono text-[11px]">&copy; {{ date('Y') }} SI-Pohon</p>
         </footer>
     </div>
 
-    <!-- Toggle Script for Sidebar (Desktop & Mobile with LocalStorage Persistence) -->
+    <!-- Toggle Script -->
     <script>
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
@@ -229,7 +198,6 @@
             }
         }
 
-        // Restore saved sidebar collapsed state on Desktop
         document.addEventListener('DOMContentLoaded', () => {
             if (window.innerWidth >= 768 && localStorage.getItem('sidebar_collapsed') === 'true') {
                 const sidebar = document.getElementById('sidebar');
