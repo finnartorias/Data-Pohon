@@ -102,16 +102,7 @@
                 <span>Tambah Pohon Baru</span>
             </a>
 
-            <div class="pt-6 px-3 pb-2 text-[10px] font-bold tracking-wider text-slate-400 uppercase">Tampilan Pengunjung</div>
-            
-            <a href="{{ route('home') }}" target="_blank" class="flex items-center px-4 py-3 rounded-2xl text-xs font-semibold text-slate-300 hover:bg-white/5 hover:text-emerald-300 group transition-all">
-                <i class="fa-solid fa-compass w-6 text-sm text-emerald-400 group-hover:scale-110 transition-transform"></i>
-                <div class="flex-1">
-                    <span>Portal Publik Pohon</span>
-                    <span class="block text-[10px] text-slate-400 font-normal">Katalog Semua Pohon</span>
-                </div>
-                <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-slate-500"></i>
-            </a>
+
         </nav>
 
         <!-- Admin Profile & Logout -->

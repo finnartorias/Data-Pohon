@@ -17,13 +17,9 @@ Route::get('/', function () {
     return auth()->check()
         ? redirect()->route('dashboard')
         : redirect()->route('login');
-})->name('root');
+})->name('home');
 
-// Portal Publik: Katalog Eksplorasi Pohon (Dapat diakses via tombol Tampilan Pengunjung)
-Route::get('/portal', [PublicTreeController::class, 'index'])->name('home');
-Route::get('/katalog', [PublicTreeController::class, 'index'])->name('katalog');
-
-// Halaman Publik (Tanpa Login / Scan QR Code)
+// Halaman Publik Khusus Scan QR Code di Pohon (Tanpa Login)
 Route::get('/pohon/public/{id_pohon}', [PublicTreeController::class, 'show'])->name('pohon.public');
 Route::get('/pohon/{id_pohon}/qrcode.svg', [PublicTreeController::class, 'rawQr'])->name('pohon.qrcode.raw');
 
