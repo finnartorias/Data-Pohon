@@ -22,7 +22,6 @@ class SmkknTreeSeeder extends Seeder
             $this->command->error("File '{$filePath}' tidak ditemukan.");
             return;
         }
-
         $zip = new ZipArchive();
         if ($zip->open($filePath) !== true) {
             $this->command->error("Gagal membuka file excel {$filePath}.");
