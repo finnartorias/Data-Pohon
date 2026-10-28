@@ -58,14 +58,14 @@
 </head>
 <body class="min-h-screen bg-slate-50 text-slate-800 antialiased flex flex-col md:flex-row selection:bg-emerald-500 selection:text-white">
 
-    <!-- Mobile Sidebar Backdrop -->
-    <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-30 hidden md:hidden transition-opacity"></div>
+    <!-- Mobile Sidebar Backdrop (Klik untuk tutup di layar HP) -->
+    <div id="sidebar-backdrop" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-30 hidden md:hidden transition-opacity duration-300"></div>
 
-    <!-- Sidebar Navigation -->
+    <!-- Sidebar Navigation (Collapsible / Bisa Disembunyikan) -->
     <aside id="sidebar" class="fixed inset-y-0 left-0 z-40 w-72 bg-gradient-to-b from-brand-950 via-slate-950 to-slate-950 text-white transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col shadow-2xl border-r border-white/5">
         
-        <!-- Brand Header -->
-        <div class="p-6 border-b border-white/10 flex items-center justify-between">
+        <!-- Brand Header & Tombol Sembunyikan -->
+        <div class="p-5 border-b border-white/10 flex items-center justify-between">
             <a href="{{ route('dashboard') }}" class="flex items-center space-x-3 group">
                 <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-500 to-emerald-400 flex items-center justify-center text-slate-950 text-lg font-black shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
                     <i class="fa-solid fa-tree text-white"></i>
@@ -78,8 +78,10 @@
                     <p class="text-[10px] text-emerald-300/70 font-semibold tracking-wider uppercase">Sistem Monitoring Pohon</p>
                 </div>
             </a>
-            <button onclick="toggleSidebar()" class="md:hidden text-slate-400 hover:text-white p-1">
-                <i class="fa-solid fa-xmark text-lg"></i>
+            
+            <!-- Tombol Sembunyikan Menu (Bekerja di HP & Desktop) -->
+            <button onclick="toggleSidebar()" type="button" title="Sembunyikan Sidebar" class="w-8 h-8 rounded-xl bg-white/10 hover:bg-white/20 text-slate-300 hover:text-white flex items-center justify-center transition-all active:scale-95">
+                <i class="fa-solid fa-chevron-left text-xs"></i>
             </button>
         </div>
 
@@ -101,8 +103,6 @@
                 <i class="fa-solid fa-circle-plus w-6 text-sm {{ request()->routeIs('trees.create') ? 'text-white' : 'text-emerald-400' }}"></i>
                 <span>Tambah Pohon Baru</span>
             </a>
-
-
         </nav>
 
         <!-- Admin Profile & Logout -->
@@ -113,7 +113,7 @@
                         {{ substr(auth()->user()->name ?? 'A', 0, 1) }}
                     </div>
                     <div class="truncate max-w-[120px]">
-                        <p class="text-xs font-bold text-white truncate">{{ auth()->user()->name ?? 'Admin SMKKN' }}</p>
+                        <p class="text-xs font-bold text-white truncate">{{ auth()->user()->name ?? 'Administrator' }}</p>
                         <p class="text-[11px] text-slate-400 truncate">{{ auth()->user()->email ?? 'admin@pohon.id' }}</p>
                     </div>
                 </div>
@@ -127,23 +127,38 @@
         </div>
     </aside>
 
-    <!-- Main Content Area -->
-    <div class="flex-1 flex flex-col md:ml-72 min-h-screen">
+    <!-- Main Content Area (Auto-Expand Saat Menu Disembunyikan) -->
+    <div id="main-content" class="flex-1 flex flex-col md:ml-72 min-h-screen transition-all duration-300 ease-in-out">
         
-        <!-- Topbar Mobile -->
-        <header class="bg-white/90 backdrop-blur-md border-b border-slate-200 sticky top-0 z-20 px-4 py-3 flex items-center justify-between md:hidden">
-            <button onclick="toggleSidebar()" class="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-700 hover:bg-slate-200 transition-colors">
-                <i class="fa-solid fa-bars"></i>
-            </button>
-            <div class="flex items-center space-x-2">
-                <div class="w-7 h-7 rounded-xl bg-emerald-600 flex items-center justify-center text-white text-xs">
-                    <i class="fa-solid fa-tree"></i>
+        <!-- Universal Topbar (Desktop & Mobile) -->
+        <header class="bg-white/95 backdrop-blur-md border-b border-slate-200 sticky top-0 z-20 px-4 sm:px-6 py-3 flex items-center justify-between shadow-2xs">
+            <div class="flex items-center space-x-3">
+                <!-- Tombol Toggle Sidebar -->
+                <button onclick="toggleSidebar()" type="button" title="Sembunyikan / Tampilkan Menu" class="inline-flex items-center space-x-2 px-3 py-2 rounded-2xl bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-700 text-xs font-bold transition-all active:scale-95 border border-slate-200/80 shadow-2xs">
+                    <i class="fa-solid fa-bars text-sm"></i>
+                    <span id="btn-sidebar-label" class="hidden sm:inline">Menu Navigasi</span>
+                </button>
+
+                <div class="hidden sm:flex items-center space-x-2 pl-2 border-l border-slate-200 text-xs text-slate-500 font-medium">
+                    <span class="font-bold text-slate-800 truncate">@yield('title', 'Sistem Monitoring Pohon QR')</span>
                 </div>
-                <span class="font-extrabold text-slate-800 text-sm">EcoTree QR</span>
             </div>
-            <a href="{{ route('trees.create') }}" class="w-9 h-9 rounded-xl bg-emerald-600 text-white flex items-center justify-center shadow-sm">
-                <i class="fa-solid fa-plus text-xs"></i>
-            </a>
+
+            <div class="flex items-center space-x-2.5">
+                <a href="{{ route('trees.create') }}" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs shadow-sm flex items-center space-x-1.5 transition-all active:scale-95">
+                    <i class="fa-solid fa-plus text-[10px]"></i>
+                    <span class="hidden xs:inline">Pohon Baru</span>
+                </a>
+
+                <div class="h-6 w-px bg-slate-200 hidden sm:block"></div>
+
+                <div class="hidden sm:flex items-center space-x-2">
+                    <div class="w-8 h-8 rounded-xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-xs">
+                        {{ substr(auth()->user()->name ?? 'A', 0, 1) }}
+                    </div>
+                    <span class="text-xs font-bold text-slate-700">{{ auth()->user()->name ?? 'Admin' }}</span>
+                </div>
+            </div>
         </header>
 
         <!-- Flash Messages & Main Views -->
@@ -182,14 +197,49 @@
         </footer>
     </div>
 
-    <!-- Toggle Script for Sidebar -->
+    <!-- Toggle Script for Sidebar (Desktop & Mobile with LocalStorage Persistence) -->
     <script>
         function toggleSidebar() {
             const sidebar = document.getElementById('sidebar');
             const backdrop = document.getElementById('sidebar-backdrop');
-            sidebar.classList.toggle('-translate-x-full');
-            backdrop.classList.toggle('hidden');
+            const mainContent = document.getElementById('main-content');
+            
+            const isDesktop = window.innerWidth >= 768;
+            
+            if (isDesktop) {
+                const isCollapsed = sidebar.classList.contains('md:-translate-x-full');
+                if (isCollapsed) {
+                    sidebar.classList.remove('md:-translate-x-full');
+                    mainContent.classList.remove('md:ml-0');
+                    localStorage.setItem('sidebar_collapsed', 'false');
+                } else {
+                    sidebar.classList.add('md:-translate-x-full');
+                    mainContent.classList.add('md:ml-0');
+                    localStorage.setItem('sidebar_collapsed', 'true');
+                }
+            } else {
+                const isMobileOpen = !sidebar.classList.contains('-translate-x-full');
+                if (isMobileOpen) {
+                    sidebar.classList.add('-translate-x-full');
+                    backdrop.classList.add('hidden');
+                } else {
+                    sidebar.classList.remove('-translate-x-full');
+                    backdrop.classList.remove('hidden');
+                }
+            }
         }
+
+        // Restore saved sidebar collapsed state on Desktop
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.innerWidth >= 768 && localStorage.getItem('sidebar_collapsed') === 'true') {
+                const sidebar = document.getElementById('sidebar');
+                const mainContent = document.getElementById('main-content');
+                if (sidebar && mainContent) {
+                    sidebar.classList.add('md:-translate-x-full');
+                    mainContent.classList.add('md:ml-0');
+                }
+            }
+        });
     </script>
     @stack('scripts')
 </body>
