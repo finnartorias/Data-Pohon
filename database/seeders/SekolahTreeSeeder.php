@@ -131,8 +131,8 @@ class SekolahTreeSeeder extends Seeder
                 $plantingDate = $now->copy()->subYears(8 + ($no % 7))->subMonths(($no * 5) % 11)->toDateString();
             }
 
-            // Kode identitas pohon sekolah
-            $idPohon = 'SMKKN-' . str_pad($no, 3, '0', STR_PAD_LEFT);
+            // Kode identitas pohon
+            $idPohon = 'TREE-' . str_pad($no, 3, '0', STR_PAD_LEFT);
             $lokasiTaman = 'Area Lingkungan Sekolah SMKKN';
 
             $deskripsi = "Pohon {$namaJenis}" . ($namaLatin ? " ({$namaLatin})" : '') . " kategori {$tingkat} dengan diameter batang {$diameter} cm"

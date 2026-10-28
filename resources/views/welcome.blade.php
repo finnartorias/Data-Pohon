@@ -180,69 +180,65 @@
             </div>
         @else
             <!-- Grid of Cards -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 @foreach($trees as $tree)
                     <a href="{{ route('pohon.public', $tree->id_pohon) }}"
-                        class="group bg-white rounded-3xl border border-slate-200/80 shadow-sm hover:shadow-xl hover:border-emerald-500/40 transition-all duration-300 overflow-hidden flex flex-col transform hover:-translate-y-1">
+                        class="group bg-white rounded-3xl border border-slate-200/80 shadow-subtle hover:shadow-card hover:border-emerald-500/50 transition-all duration-200 p-5 flex flex-col justify-between space-y-4 transform hover:-translate-y-1">
                         
-                        <!-- Photo Header -->
-                        <div class="relative h-48 w-full bg-slate-900 overflow-hidden">
-                            <img src="{{ $tree->foto_url }}" alt="{{ $tree->nama_pohon }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-                            <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
-                            
-                            <!-- Badges -->
-                            <div class="absolute top-3 left-3 flex items-center space-x-1.5">
-                                <span class="font-mono font-black text-[11px] px-2.5 py-1 rounded-lg bg-emerald-600 text-white shadow-sm backdrop-blur-md">
+                        <!-- Header Card: Badges & Icon -->
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <span class="font-mono font-black text-xs px-3 py-1 rounded-xl bg-emerald-600 text-white shadow-2xs">
                                     {{ $tree->id_pohon }}
                                 </span>
-                            </div>
-
-                            @if($tree->tingkat)
-                                <div class="absolute top-3 right-3">
-                                    <span class="text-[11px] font-bold px-2.5 py-1 rounded-lg bg-slate-900/80 text-emerald-300 backdrop-blur-md border border-white/10">
+                                @if($tree->tingkat)
+                                    <span class="text-[11px] font-bold px-2.5 py-1 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-100">
                                         {{ $tree->tingkat }}
                                     </span>
-                                </div>
-                            @endif
+                                @endif
+                            </div>
 
-                            <div class="absolute bottom-3 left-3 right-3 text-white">
-                                <h3 class="font-extrabold text-lg text-white leading-tight group-hover:text-emerald-300 transition-colors">
+                            <div>
+                                <h3 class="font-black text-xl text-slate-900 group-hover:text-emerald-700 transition-colors leading-tight">
                                     {{ $tree->nama_pohon }}
                                 </h3>
                                 @if($tree->nama_latin)
-                                    <p class="text-xs text-emerald-200 font-serif italic mt-0.5 truncate">
+                                    <p class="text-xs text-emerald-800 font-serif italic font-semibold mt-0.5">
                                         {{ $tree->nama_latin }}
                                     </p>
                                 @endif
                             </div>
                         </div>
 
-                        <!-- Card Body -->
-                        <div class="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-4">
-                            
+                        <!-- Card Metrics -->
+                        <div class="space-y-3 pt-2">
                             <div class="grid grid-cols-2 gap-2 text-center text-xs">
-                                <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100">
-                                    <span class="text-[10px] uppercase font-bold text-slate-400 block">Diameter</span>
-                                    <span class="font-extrabold text-slate-800">{{ $tree->diameter ? $tree->diameter . ' cm' : '-' }}</span>
+                                <div class="p-2.5 rounded-2xl bg-slate-50 border border-slate-100">
+                                    <span class="text-[9px] uppercase font-bold text-slate-400 block">Diameter</span>
+                                    <span class="font-extrabold text-slate-800 text-sm mt-0.5 block">
+                                        {{ $tree->diameter ? number_format($tree->diameter, 1) . ' cm' : '-' }}
+                                    </span>
                                 </div>
-                                <div class="p-2.5 rounded-xl bg-emerald-50/70 border border-emerald-100">
-                                    <span class="text-[10px] uppercase font-bold text-emerald-700 block">Serapan CO₂e</span>
-                                    <span class="font-extrabold text-emerald-800">{{ number_format($tree->estimasi_karbon, 1) }} kg</span>
+                                <div class="p-2.5 rounded-2xl bg-emerald-50/70 border border-emerald-100">
+                                    <span class="text-[9px] uppercase font-bold text-emerald-700 block">Serapan CO₂e</span>
+                                    <span class="font-extrabold text-emerald-800 text-sm mt-0.5 block">
+                                        {{ number_format($tree->estimasi_karbon, 1) }} kg
+                                    </span>
                                 </div>
                             </div>
 
                             <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
-                                <span class="text-slate-500 truncate max-w-[170px]">
+                                <span class="text-slate-500 truncate max-w-[170px] text-[11px]">
                                     <i class="fa-solid fa-location-dot text-emerald-500 mr-1"></i>
                                     {{ $tree->lokasi_taman ?? 'Arboretum SMKKN' }}
                                 </span>
-                                <span class="text-emerald-600 font-bold group-hover:translate-x-1 transition-transform flex items-center space-x-1">
-                                    <span>Lihat Detail</span>
+                                <span class="text-emerald-700 font-bold group-hover:translate-x-1 transition-transform flex items-center space-x-1">
+                                    <span>Buka Detail</span>
                                     <i class="fa-solid fa-arrow-right text-[10px]"></i>
                                 </span>
                             </div>
-
                         </div>
+
                     </a>
                 @endforeach
             </div>
