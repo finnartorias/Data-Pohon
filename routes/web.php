@@ -12,8 +12,12 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-// Beranda: Portal Publik Eksplorasi Pohon SMKKN (Tanpa Wajib Login)
-Route::get('/', [PublicTreeController::class, 'index'])->name('home');
+// Halaman Utama Langsung Diarahkan ke Login Admin (atau Dashboard jika sudah login)
+Route::get('/', function () {
+    return auth()->check()
+        ? redirect()->route('dashboard')
+        : redirect()->route('login');
+})->name('home');
 
 // Halaman Publik (Tanpa Login / Scan QR Code)
 Route::get('/pohon/public/{id_pohon}', [PublicTreeController::class, 'show'])->name('pohon.public');

@@ -81,8 +81,8 @@
     <!-- Top Floating Navbar -->
     <header class="sticky top-0 z-40 w-full bg-slate-950/90 backdrop-blur-md border-b border-white/10 transition-all">
         <div class="max-w-3xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-            <a href="{{ route('home') }}" class="flex items-center space-x-3 group">
-                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20 group-hover:scale-105 transition-transform">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-2xl bg-gradient-to-tr from-emerald-600 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-emerald-500/20">
                     <i class="fa-solid fa-tree text-lg"></i>
                 </div>
                 <div>
@@ -92,18 +92,14 @@
                     </div>
                     <p class="text-[10px] text-emerald-300/80 font-medium tracking-wide">Monitoring Pohon SMKKN</p>
                 </div>
-            </a>
+            </div>
 
             <div class="flex items-center space-x-2">
                 <a href="https://api.whatsapp.com/send?text={{ rawurlencode('Halo! Saya menemukan pohon ' . $tree->nama_pohon . ' (' . ($tree->nama_latin ?? '') . ') di SMKKN. Serapan karbon: ' . number_format($tree->estimasi_karbon, 1) . ' kg CO2e. Cek selengkapnya: ' . url()->current()) }}" 
                    target="_blank" 
-                   class="inline-flex items-center space-x-1.5 px-3 py-2 rounded-xl bg-emerald-600/90 hover:bg-emerald-500 text-white text-xs font-bold backdrop-blur-md border border-emerald-400/30 transition-all active:scale-95 shadow-sm">
+                   class="inline-flex items-center space-x-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold backdrop-blur-md transition-all active:scale-95 shadow-sm">
                     <i class="fa-brands fa-whatsapp text-sm"></i>
-                    <span class="hidden xs:inline">WhatsApp</span>
-                </a>
-                <a href="{{ route('home') }}" class="inline-flex items-center space-x-1.5 px-3 py-2 rounded-xl bg-white/10 hover:bg-white/15 text-white text-xs font-bold backdrop-blur-md border border-white/10 transition-all active:scale-95">
-                    <i class="fa-solid fa-compass text-emerald-400"></i>
-                    <span class="hidden sm:inline">Katalog</span>
+                    <span>Kirim ke WA</span>
                 </a>
             </div>
         </div>
@@ -405,15 +401,17 @@
         </section>
         @endif
 
-        <!-- Action Buttons (Desktop & Tablet) -->
+        <!-- Action Buttons -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-            <a href="{{ route('home') }}" class="py-3.5 px-4 rounded-2xl bg-white border border-slate-200 text-slate-800 font-bold text-xs sm:text-sm shadow-subtle hover:bg-slate-50 transition-all flex items-center justify-center space-x-2 active:scale-95">
-                <i class="fa-solid fa-compass text-emerald-600"></i>
-                <span>Lihat Semua Pohon</span>
+            <a href="https://api.whatsapp.com/send?text={{ rawurlencode('Halo! Saya menemukan pohon ' . $tree->nama_pohon . ' (' . ($tree->nama_latin ?? '') . ') di SMKKN. Serapan karbon: ' . number_format($tree->estimasi_karbon, 1) . ' kg CO2e. Cek selengkapnya: ' . url()->current()) }}" 
+               target="_blank"
+               class="py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-md shadow-emerald-600/30 transition-all flex items-center justify-center space-x-2 active:scale-95">
+                <i class="fa-brands fa-whatsapp text-base"></i>
+                <span>Kirim Hasil ke WhatsApp</span>
             </a>
-            <button onclick="shareTree()" type="button" class="py-3.5 px-4 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-md shadow-emerald-600/30 transition-all flex items-center justify-center space-x-2 active:scale-95">
-                <i class="fa-solid fa-share-nodes"></i>
-                <span>Bagikan Tautan</span>
+            <button onclick="shareTree()" type="button" class="py-3.5 px-4 rounded-2xl bg-white border border-slate-200 text-slate-800 font-bold text-xs sm:text-sm shadow-subtle hover:bg-slate-50 transition-all flex items-center justify-center space-x-2 active:scale-95">
+                <i class="fa-solid fa-share-nodes text-emerald-600"></i>
+                <span>Salin Tautan / Bagikan</span>
             </button>
         </div>
 
@@ -445,12 +443,12 @@
             <span class="text-[10px] font-bold text-slate-700">Rute GPS</span>
         </a>
         @else
-        <a href="{{ route('home') }}" class="flex-1 flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-slate-700 active:bg-slate-100 focus:outline-none transition-transform active:scale-95">
+        <button onclick="shareTree()" type="button" class="flex-1 flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-slate-700 active:bg-slate-100 focus:outline-none transition-transform active:scale-95">
             <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-700 flex items-center justify-center text-xs mb-0.5">
-                <i class="fa-solid fa-compass"></i>
+                <i class="fa-solid fa-copy"></i>
             </div>
-            <span class="text-[10px] font-bold text-slate-700">Katalog</span>
-        </a>
+            <span class="text-[10px] font-bold text-slate-700">Salin Link</span>
+        </button>
         @endif
 
         <button onclick="shareTree()" type="button" class="flex-1 flex flex-col items-center justify-center py-1.5 px-1 rounded-xl text-slate-700 active:bg-slate-100 focus:outline-none transition-transform active:scale-95">
@@ -482,8 +480,6 @@
                 <p class="text-slate-400 mt-0.5">Kawasan Arboretum SMK Kehutanan Negeri (SMKKN)</p>
             </div>
             <div class="flex items-center space-x-4 font-medium">
-                <a href="{{ route('home') }}" class="hover:text-emerald-600 transition-colors">Portal Publik</a>
-                <span>&bull;</span>
                 <a href="{{ route('login') }}" class="hover:text-emerald-600 transition-colors">Akses Administrator</a>
             </div>
         </div>
