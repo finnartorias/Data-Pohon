@@ -12,12 +12,16 @@ use Illuminate\Support\Facades\Route;
 |--------------------------------------------------------------------------
 */
 
-// Halaman Utama Langsung Diarahkan ke Login Admin (atau Dashboard jika sudah login)
+// Halaman Utama Domain Langsung Diarahkan ke Login Admin (atau Dashboard jika sudah login)
 Route::get('/', function () {
     return auth()->check()
         ? redirect()->route('dashboard')
         : redirect()->route('login');
-})->name('home');
+})->name('root');
+
+// Portal Publik: Katalog Eksplorasi Pohon (Dapat diakses via tombol Tampilan Pengunjung)
+Route::get('/portal', [PublicTreeController::class, 'index'])->name('home');
+Route::get('/katalog', [PublicTreeController::class, 'index'])->name('katalog');
 
 // Halaman Publik (Tanpa Login / Scan QR Code)
 Route::get('/pohon/public/{id_pohon}', [PublicTreeController::class, 'show'])->name('pohon.public');

@@ -480,6 +480,8 @@
                 <p class="text-slate-400 mt-0.5">Kawasan Arboretum SMK Kehutanan Negeri (SMKKN)</p>
             </div>
             <div class="flex items-center space-x-4 font-medium">
+                <a href="{{ route('home') }}" class="hover:text-emerald-600 transition-colors">Portal Publik</a>
+                <span>&bull;</span>
                 <a href="{{ route('login') }}" class="hover:text-emerald-600 transition-colors">Akses Administrator</a>
             </div>
         </div>
