@@ -190,28 +190,17 @@
                 </div>
             </div>
 
-            <!-- Section 4: Foto Pohon & Deskripsi -->
+            <!-- Section 4: Deskripsi & Karakteristik -->
             <div class="space-y-4 pt-4 border-t border-slate-100">
                 <h3 class="text-xs font-extrabold uppercase tracking-wider text-emerald-800 flex items-center">
-                    <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2"></span> 4. Dokumentasi Foto & Deskripsi
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 mr-2"></span> 4. Deskripsi & Karakteristik Pohon
                 </h3>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Foto Pohon (Opsional)</label>
-                        <div class="border-2 border-dashed border-slate-200 rounded-3xl p-5 text-center hover:border-emerald-500 transition-colors bg-slate-50/50">
-                            <i class="fa-solid fa-cloud-arrow-up text-2xl text-emerald-600 mb-2"></i>
-                            <input type="file" name="foto" id="foto" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
-                            <p class="text-[10px] text-slate-400 mt-2">Format: JPG, PNG, WEBP (Maksimal 3MB)</p>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="deskripsi" class="block text-xs font-bold text-slate-700 mb-1.5">Deskripsi / Manfaat Ekologis</label>
-                        <textarea name="deskripsi" id="deskripsi" rows="4"
-                            placeholder="Catatan morfologi pohon, manfaat bagi lingkungan SMKKN, atau keunikan..."
-                            class="w-full px-4 py-2.5 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs sm:text-sm leading-relaxed transition-all">{{ old('deskripsi') }}</textarea>
-                    </div>
+                <div>
+                    <label for="deskripsi" class="block text-xs font-bold text-slate-700 mb-1.5">Deskripsi / Manfaat Ekologis</label>
+                    <textarea name="deskripsi" id="deskripsi" rows="4"
+                        placeholder="Catatan morfologi pohon, manfaat bagi lingkungan SMKKN, atau keunikan..."
+                        class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 text-xs sm:text-sm leading-relaxed transition-all">{{ old('deskripsi') }}</textarea>
                 </div>
             </div>
 

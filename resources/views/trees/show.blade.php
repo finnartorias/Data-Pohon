@@ -44,31 +44,30 @@
         <!-- Column 1 & 2: Detail Informasi Pohon -->
         <div class="lg:col-span-2 space-y-6">
             
-            <!-- Hero Card -->
+            <!-- Hero Card (Tanpa Foto) -->
             <div class="bg-white rounded-3xl border border-slate-200/80 shadow-subtle overflow-hidden">
-                <div class="relative h-64 sm:h-80 w-full overflow-hidden bg-slate-900">
-                    <img src="{{ $tree->foto_url }}" alt="{{ $tree->nama_pohon }}" class="w-full h-full object-cover">
-                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent"></div>
-                    
-                    <div class="absolute bottom-6 left-6 right-6 text-white">
-                        <div class="flex flex-wrap items-center gap-2 mb-2">
-                            <span class="px-3 py-1 rounded-xl bg-emerald-600 text-white font-mono font-bold text-xs uppercase tracking-wider shadow-sm">
-                                {{ $tree->id_pohon }}
+                <div class="relative p-6 sm:p-8 bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 text-white">
+                    <div class="flex flex-wrap items-center gap-2 mb-3">
+                        <span class="px-3.5 py-1.5 rounded-xl bg-emerald-600 text-white font-mono font-black text-xs uppercase tracking-wider shadow-sm">
+                            <i class="fa-solid fa-qrcode mr-1"></i> {{ $tree->id_pohon }}
+                        </span>
+                        @if($tree->tingkat)
+                            <span class="px-3 py-1.5 rounded-xl bg-white/15 backdrop-blur-md text-emerald-200 text-xs font-semibold">
+                                <i class="fa-solid fa-seedling mr-1"></i> {{ $tree->tingkat }}
                             </span>
-                            @if($tree->tingkat)
-                                <span class="px-3 py-1 rounded-xl bg-white/20 backdrop-blur-md text-emerald-200 text-xs font-semibold">
-                                    {{ $tree->tingkat }}
-                                </span>
-                            @endif
-                            <span class="px-3 py-1 rounded-xl bg-white/20 backdrop-blur-md text-white text-xs font-semibold">
-                                <i class="fa-regular fa-calendar mr-1"></i> Tanam: {{ $tree->tanggal_tanam ? $tree->tanggal_tanam->translatedFormat('d F Y') : '-' }}
-                            </span>
-                        </div>
-                        <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-white">{{ $tree->nama_pohon }}</h1>
-                        @if($tree->nama_latin)
-                            <p class="text-sm sm:text-base text-emerald-200 font-serif italic mt-0.5">{{ $tree->nama_latin }}</p>
                         @endif
+                        <span class="px-3 py-1.5 rounded-xl bg-white/15 backdrop-blur-md text-white text-xs font-semibold">
+                            <i class="fa-regular fa-calendar mr-1"></i> Tanam: {{ $tree->tanggal_tanam ? $tree->tanggal_tanam->translatedFormat('d F Y') : '-' }}
+                        </span>
                     </div>
+                    <h1 class="text-2xl sm:text-4xl font-black tracking-tight text-white">{{ $tree->nama_pohon }}</h1>
+                    @if($tree->nama_latin)
+                        <p class="text-base sm:text-lg text-emerald-300 font-serif italic mt-1">{{ $tree->nama_latin }}</p>
+                    @endif
+                    <p class="text-xs text-slate-300 flex items-center pt-2">
+                        <i class="fa-solid fa-location-dot text-emerald-400 mr-1.5"></i>
+                        <span>{{ $tree->lokasi_taman ?? 'Arboretum SMKKN' }}</span>
+                    </p>
                 </div>
 
                 <!-- 3 Metric Highlights -->

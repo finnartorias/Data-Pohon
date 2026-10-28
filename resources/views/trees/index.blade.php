@@ -46,7 +46,7 @@
             <table class="w-full text-left border-collapse text-xs sm:text-sm">
                 <thead>
                     <tr class="bg-slate-50/70 border-b border-slate-100 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                        <th class="py-4 px-6">ID & Foto</th>
+                        <th class="py-4 px-6">Kode ID</th>
                         <th class="py-4 px-6">Nama & Spesies</th>
                         <th class="py-4 px-6">Tingkat & Umur</th>
                         <th class="py-4 px-6">Lokasi</th>
@@ -58,16 +58,12 @@
                 <tbody class="divide-y divide-slate-100">
                     @forelse($trees as $tree)
                         <tr class="hover:bg-slate-50/70 transition-colors">
-                            <!-- ID & Foto -->
+                            <!-- Kode ID -->
                             <td class="py-4 px-6 whitespace-nowrap">
-                                <div class="flex items-center space-x-3">
-                                    <img src="{{ $tree->foto_url }}" alt="{{ $tree->nama_pohon }}" class="w-12 h-12 rounded-2xl object-cover border border-slate-200 shadow-2xs flex-shrink-0">
-                                    <div>
-                                        <span class="inline-block font-mono font-bold text-xs px-2.5 py-1 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200">
-                                            {{ $tree->id_pohon }}
-                                        </span>
-                                    </div>
-                                </div>
+                                <span class="inline-flex items-center font-mono font-black text-xs px-3 py-1.5 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200/80">
+                                    <i class="fa-solid fa-qrcode mr-1.5 text-emerald-600"></i>
+                                    {{ $tree->id_pohon }}
+                                </span>
                             </td>
 
                             <!-- Nama & Spesies -->

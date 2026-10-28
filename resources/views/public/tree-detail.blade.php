@@ -130,20 +130,7 @@
                 </div>
             </div>
 
-            <!-- Foto Asli Pohon (Jika Diunggah oleh Admin) -->
-            @if($tree->foto)
-            <div class="relative rounded-2xl overflow-hidden border border-slate-200/90 shadow-sm bg-slate-100 cursor-pointer group" onclick="openPhotoModal('{{ asset('storage/' . $tree->foto) }}', '{{ addslashes($tree->nama_pohon) }}')">
-                <img src="{{ asset('storage/' . $tree->foto) }}" alt="{{ $tree->nama_pohon }}" class="w-full h-52 sm:h-72 object-cover group-hover:scale-[1.02] transition-transform duration-300">
-                <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent flex items-end justify-between p-3.5">
-                    <span class="text-[11px] text-white font-medium flex items-center bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-lg">
-                        <i class="fa-solid fa-camera mr-1.5 text-emerald-400"></i> Dokumentasi Lapangan
-                    </span>
-                    <span class="text-[11px] text-white/90 font-medium bg-black/40 backdrop-blur-md px-2.5 py-1 rounded-lg">
-                        <i class="fa-solid fa-expand mr-1"></i> Perbesar
-                    </span>
-                </div>
-            </div>
-            @endif
+
 
             <!-- Nama Pohon & Nama Latin -->
             <div class="space-y-1.5">
@@ -459,18 +446,7 @@
         </button>
     </aside>
 
-    <!-- Modal Pratinjau Foto -->
-    <div id="photo-modal" class="hidden fixed inset-0 z-50 bg-black/90 backdrop-blur-sm flex items-center justify-center p-4" onclick="closePhotoModal()">
-        <div class="max-w-2xl w-full bg-transparent text-center space-y-3" onclick="event.stopPropagation()">
-            <div class="relative inline-block rounded-2xl overflow-hidden shadow-2xl border border-white/20">
-                <img id="photo-modal-img" src="" alt="Pratinjau Foto Pohon" class="max-h-[80vh] w-auto mx-auto object-contain">
-                <button onclick="closePhotoModal()" type="button" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-black/60 text-white flex items-center justify-center hover:bg-black/80 transition-colors">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
-            <p id="photo-modal-caption" class="text-white text-xs sm:text-sm font-semibold"></p>
-        </div>
-    </div>
+
 
     <!-- Footer -->
     <footer class="w-full bg-white border-t border-slate-200 py-6 mt-10">
@@ -568,20 +544,7 @@
             }
         }
 
-        // Fitur Modal Foto
-        function openPhotoModal(src, caption) {
-            const modal = document.getElementById('photo-modal');
-            const img = document.getElementById('photo-modal-img');
-            const cap = document.getElementById('photo-modal-caption');
-            img.src = src;
-            cap.textContent = caption;
-            modal.classList.remove('hidden');
-        }
 
-        function closePhotoModal() {
-            const modal = document.getElementById('photo-modal');
-            modal.classList.add('hidden');
-        }
 
         // Fitur Audio Narasi Suara (Web Speech API Native)
         let isSpeaking = false;

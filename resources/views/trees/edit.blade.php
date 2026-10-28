@@ -170,32 +170,16 @@
                 </div>
             </div>
 
-            <!-- Section 4: Foto & Deskripsi -->
+            <!-- Section 4: Deskripsi & Catatan -->
             <div class="space-y-4 pt-4 border-t border-slate-100">
                 <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-800 flex items-center">
-                    <span class="w-2 h-2 rounded-full bg-blue-500 mr-2"></span> 4. Dokumentasi Foto & Deskripsi
+                    <span class="w-2 h-2 rounded-full bg-blue-500 mr-2"></span> 4. Deskripsi & Karakteristik Pohon
                 </h3>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 items-start">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Ganti Foto Pohon</label>
-                        @if($tree->foto)
-                            <div class="mb-3 flex items-center space-x-3 p-3 bg-slate-50 rounded-2xl border border-slate-200">
-                                <img src="{{ $tree->foto_url }}" alt="Foto Lama" class="w-14 h-14 rounded-xl object-cover">
-                                <div>
-                                    <span class="text-xs font-bold text-slate-700">Foto Saat Ini</span>
-                                    <p class="text-[10px] text-slate-400">Pilih file baru di bawah jika ingin mengganti.</p>
-                                </div>
-                            </div>
-                        @endif
-                        <input type="file" name="foto" id="foto" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                    </div>
-
-                    <div>
-                        <label for="deskripsi" class="block text-xs font-bold text-slate-700 mb-1.5">Deskripsi / Catatan</label>
-                        <textarea name="deskripsi" id="deskripsi" rows="4"
-                            class="w-full px-4 py-2.5 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm leading-relaxed transition-all">{{ old('deskripsi', $tree->deskripsi) }}</textarea>
-                    </div>
+                <div>
+                    <label for="deskripsi" class="block text-xs font-bold text-slate-700 mb-1.5">Deskripsi / Catatan</label>
+                    <textarea name="deskripsi" id="deskripsi" rows="4"
+                        class="w-full px-4 py-3 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 text-xs sm:text-sm leading-relaxed transition-all">{{ old('deskripsi', $tree->deskripsi) }}</textarea>
                 </div>
             </div>
 
