@@ -1,0 +1,6 @@
+/tests
+.git
+.github
+*.xlsx
+.phpunit.result.cache
+phpunit.xml
