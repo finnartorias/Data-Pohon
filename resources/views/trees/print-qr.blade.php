@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plakat Label QR Pohon &bull; {{ $tree->id_pohon }} - {{ $tree->nama_pohon }}</title>
+    <title>Plakat Label QR &bull; {{ $tree->nama_pohon }}</title>
 
-    <!-- Google Fonts: Inter & JetBrains Mono -->
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -18,7 +18,6 @@
                 extend: {
                     fontFamily: {
                         sans: ['"Inter"', 'system-ui', '-apple-system', 'sans-serif'],
-                        mono: ['"JetBrains Mono"', 'monospace'],
                     }
                 }
             }
@@ -73,28 +72,14 @@
 
         <div class="p-6 text-center space-y-4">
             
-            <!-- Register Number & Species -->
+            <!-- Nama Pohon Utama Sahaja -->
             <div>
-                <div class="inline-flex items-center space-x-1.5">
-                    <span class="px-2.5 py-0.5 rounded bg-slate-900 text-white font-mono font-bold text-xs">
-                        {{ $tree->id_pohon }}
-                    </span>
-                    @if($tree->tingkat)
-                        <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-semibold text-[11px] border border-slate-200">
-                            {{ $tree->tingkat }}
-                        </span>
-                    @endif
-                </div>
-
-                <h2 class="text-2xl font-extrabold text-slate-900 mt-2 uppercase tracking-tight">{{ $tree->nama_pohon }}</h2>
-                @if($tree->nama_latin)
-                    <p class="text-sm text-slate-600 italic font-serif font-medium mt-0.5">{{ $tree->nama_latin }}</p>
-                @endif
+                <h2 class="text-2xl sm:text-3xl font-black text-slate-900 uppercase tracking-tight">{{ $tree->nama_pohon }}</h2>
             </div>
 
             <!-- Enlarged High-Res QR Code Frame -->
-            <div class="w-64 h-64 sm:w-72 sm:h-72 mx-auto bg-white p-2 rounded-md border-2 border-slate-300 flex items-center justify-center shadow-2xs">
-                <img src="{{ $tree->qr_code_url }}" alt="QR Code {{ $tree->id_pohon }}" class="w-full h-full object-contain">
+            <div class="w-64 h-64 sm:w-72 sm:h-72 mx-auto bg-white p-2.5 rounded-md border-2 border-slate-300 flex items-center justify-center shadow-2xs">
+                <img src="{{ $tree->qr_code_url }}" alt="QR Code {{ $tree->nama_pohon }}" class="w-full h-full object-contain">
             </div>
 
             <!-- Scan Instruction -->
@@ -103,7 +88,7 @@
                     <i class="fa-solid fa-qrcode text-emerald-700 text-sm"></i>
                     <span>PINDAI DENGAN KAMERA HP</span>
                 </p>
-                <p class="text-[10px] text-slate-500 mt-0.5">Arahkan kamera smartphone untuk melihat data silvikultur & serapan karbon lengkap</p>
+                <p class="text-[10px] text-slate-500 mt-0.5">Pindai QR untuk melihat nama ilmiah, umur & serapan karbon lengkap</p>
             </div>
 
         </div>
