@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plakat Label Pohon &bull; {{ $tree->id_pohon }} - {{ $tree->nama_pohon }}</title>
+    <title>Plakat Label QR Pohon &bull; {{ $tree->id_pohon }} - {{ $tree->nama_pohon }}</title>
 
     <!-- Google Fonts: Inter & JetBrains Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -71,7 +71,7 @@
             <p class="text-[9px] text-slate-400 font-medium tracking-wide uppercase mt-0.5">Inventarisasi Flora & Karbon Arboretum</p>
         </div>
 
-        <div class="p-5 text-center space-y-3.5">
+        <div class="p-6 text-center space-y-4">
             
             <!-- Register Number & Species -->
             <div>
@@ -86,42 +86,30 @@
                     @endif
                 </div>
 
-                <h2 class="text-xl font-extrabold text-slate-900 mt-2 uppercase tracking-tight">{{ $tree->nama_pohon }}</h2>
+                <h2 class="text-2xl font-extrabold text-slate-900 mt-2 uppercase tracking-tight">{{ $tree->nama_pohon }}</h2>
                 @if($tree->nama_latin)
-                    <p class="text-xs text-slate-600 italic font-serif font-medium mt-0.5">{{ $tree->nama_latin }}</p>
+                    <p class="text-sm text-slate-600 italic font-serif font-medium mt-0.5">{{ $tree->nama_latin }}</p>
                 @endif
             </div>
 
-            <!-- High-Res QR Code Frame -->
-            <div class="w-48 h-48 mx-auto bg-white p-2 rounded border border-slate-300 flex items-center justify-center">
+            <!-- Enlarged High-Res QR Code Frame -->
+            <div class="w-64 h-64 sm:w-72 sm:h-72 mx-auto bg-white p-2 rounded-md border-2 border-slate-300 flex items-center justify-center shadow-2xs">
                 <img src="{{ $tree->qr_code_url }}" alt="QR Code {{ $tree->id_pohon }}" class="w-full h-full object-contain">
             </div>
 
-            <!-- Measurement Data -->
-            <div class="bg-slate-50 p-2.5 rounded border border-slate-200 grid grid-cols-2 gap-2 text-center text-xs">
-                <div>
-                    <span class="text-[9px] font-bold uppercase text-slate-500 block">Serapan Karbon</span>
-                    <span class="font-bold font-mono text-emerald-800 text-xs">{{ number_format($tree->estimasi_karbon, 1) }} kg CO₂e</span>
-                </div>
-                <div>
-                    <span class="text-[9px] font-bold uppercase text-slate-500 block">Diameter Batang</span>
-                    <span class="font-bold font-mono text-slate-800 text-xs">{{ $tree->diameter ? number_format($tree->diameter, 1) . ' cm' : '-' }}</span>
-                </div>
-            </div>
-
             <!-- Scan Instruction -->
-            <div class="pt-0.5">
-                <p class="text-[10px] text-slate-800 font-bold uppercase tracking-wider flex items-center justify-center space-x-1">
-                    <i class="fa-solid fa-qrcode text-emerald-700 text-xs mr-1"></i>
+            <div class="pt-1">
+                <p class="text-[11px] text-slate-900 font-bold uppercase tracking-wider flex items-center justify-center space-x-1.5">
+                    <i class="fa-solid fa-qrcode text-emerald-700 text-sm"></i>
                     <span>PINDAI DENGAN KAMERA HP</span>
                 </p>
-                <p class="text-[9px] text-slate-500 mt-0.5">Arahkan kamera smartphone ke QR untuk melihat data spesimen</p>
+                <p class="text-[10px] text-slate-500 mt-0.5">Arahkan kamera smartphone untuk melihat data silvikultur & serapan karbon lengkap</p>
             </div>
 
         </div>
 
         <!-- Footer -->
-        <div class="bg-slate-100 text-slate-600 py-2 px-3 text-center text-[9px] font-mono border-t border-slate-200">
+        <div class="bg-slate-100 text-slate-600 py-2.5 px-3 text-center text-[9px] font-mono border-t border-slate-200">
             SI-Pohon SMKKN &bull; Konservasi & Silvikultur
         </div>
 
