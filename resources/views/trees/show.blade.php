@@ -142,8 +142,8 @@
 
         </div>
 
-        <!-- Column 3: QR Code & Status -->
-        <div class="space-y-4">
+        <!-- Column 3: QR Code & Status (Ditampilkan di atas pada mobile agar langsung terlihat) -->
+        <div class="space-y-4 order-first lg:order-last">
             
             <div class="bg-white rounded-lg border border-slate-200 p-4 space-y-4 text-center shadow-2xs">
                 <div>

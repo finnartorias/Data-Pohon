@@ -42,8 +42,82 @@
         </div>
     </div>
 
-    <!-- Main Table: Professional Silvicultural Registry -->
-    <div class="bg-white rounded-lg border border-slate-200 overflow-hidden shadow-2xs">
+    <!-- Mobile Card View (Khusus Layar HP: Tampilkan QR Code & Identitas Jelas) -->
+    <div class="block sm:hidden space-y-3">
+        @forelse($trees as $tree)
+            <div class="bg-white rounded-lg border border-slate-200 p-3.5 shadow-2xs space-y-3">
+                <div class="flex items-start space-x-3">
+                    <!-- QR Code Thumbnail -->
+                    <a href="{{ route('trees.show', $tree) }}" class="w-16 h-16 bg-slate-50 p-1.5 rounded-md border border-slate-200 flex-shrink-0 flex items-center justify-center hover:bg-slate-100 transition-colors" title="Lihat Spesimen">
+                        <img src="{{ $tree->qr_code_url }}" alt="QR {{ $tree->id_pohon }}" class="w-full h-full object-contain">
+                    </a>
+
+                    <!-- Detail Pohon -->
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center space-x-1.5 mb-1">
+                            <span class="font-mono font-bold text-[11px] px-2 py-0.5 rounded bg-slate-100 text-slate-800 border border-slate-200">
+                                {{ $tree->id_pohon }}
+                            </span>
+                            @if($tree->tingkat)
+                                <span class="text-[10px] font-medium px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-800 border border-emerald-100">
+                                    {{ $tree->tingkat }}
+                                </span>
+                            @endif
+                        </div>
+                        <a href="{{ route('trees.show', $tree) }}" class="font-bold text-slate-900 text-sm hover:text-emerald-700 block truncate">
+                            {{ $tree->nama_pohon }}
+                        </a>
+                        @if($tree->nama_latin)
+                            <span class="text-[11px] text-slate-500 italic block truncate -mt-0.5">{{ $tree->nama_latin }}</span>
+                        @endif
+                        <span class="text-[10px] text-slate-400 block truncate mt-1">
+                            <i class="fa-solid fa-location-dot mr-1"></i>{{ $tree->lokasi_taman ?? 'Arboretum SMKKN' }}
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Info Silvikultur Singkat -->
+                <div class="grid grid-cols-2 gap-2 text-[11px] bg-slate-50 p-2 rounded border border-slate-100 font-mono">
+                    <div>
+                        <span class="text-slate-400 block text-[9px] uppercase font-sans">Diameter Batang</span>
+                        <strong class="text-slate-800">{{ $tree->diameter ? number_format($tree->diameter, 1) . ' cm' : '-' }}</strong>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block text-[9px] uppercase font-sans">Serapan Karbon</span>
+                        <strong class="text-emerald-800">{{ number_format($tree->estimasi_karbon, 1) }} kg CO₂e</strong>
+                    </div>
+                </div>
+
+                <!-- Tombol Aksi Cepat Mobile -->
+                <div class="flex items-center justify-between pt-1 border-t border-slate-100 text-xs">
+                    <div class="flex items-center space-x-1.5">
+                        <a href="{{ route('trees.print-qr', $tree) }}" target="_blank" class="px-2.5 py-1 rounded bg-slate-100 hover:bg-emerald-50 text-slate-700 hover:text-emerald-800 font-semibold text-[11px] border border-slate-200 flex items-center space-x-1">
+                            <i class="fa-solid fa-print text-emerald-700"></i>
+                            <span>Cetak QR</span>
+                        </a>
+                        <a href="{{ route('pohon.public', $tree->id_pohon) }}" target="_blank" class="p-1.5 rounded text-slate-500 hover:text-emerald-700 hover:bg-slate-100 border border-slate-200" title="Scan Publik">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                        </a>
+                    </div>
+                    <div class="flex items-center space-x-1.5">
+                        <a href="{{ route('trees.show', $tree) }}" class="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-900 text-white font-semibold text-[11px]">
+                            Detail
+                        </a>
+                        <a href="{{ route('trees.edit', $tree) }}" class="p-1.5 rounded text-slate-500 hover:text-blue-700 hover:bg-slate-100 border border-slate-200" title="Edit">
+                            <i class="fa-solid fa-pen"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @empty
+            <div class="bg-white rounded-lg border border-slate-200 p-6 text-center text-xs text-slate-400">
+                Data pohon tidak ditemukan.
+            </div>
+        @endforelse
+    </div>
+
+    <!-- Desktop Table View (Tabel Lengkap untuk Layar PC / Tablet) -->
+    <div class="hidden sm:block bg-white rounded-lg border border-slate-200 overflow-hidden shadow-2xs">
         <div class="overflow-x-auto">
             <table class="w-full text-left border-collapse text-xs">
                 <thead>
@@ -157,13 +231,13 @@
                 </tbody>
             </table>
         </div>
-
-        @if($trees->hasPages())
-            <div class="px-4 py-3 border-t border-slate-200 bg-slate-50/50">
-                {{ $trees->links() }}
-            </div>
-        @endif
     </div>
+
+    @if($trees->hasPages())
+        <div class="px-4 py-3 bg-white rounded-lg border border-slate-200">
+            {{ $trees->links() }}
+        </div>
+    @endif
 
 </div>
 @endsection

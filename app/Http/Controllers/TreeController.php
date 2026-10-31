@@ -172,16 +172,17 @@ class TreeController extends Controller
      */
     public function downloadQr(Tree $tree, $format = 'svg')
     {
-        if (!$tree->qr_code_path || !Storage::disk('public')->exists($tree->qr_code_path)) {
-            $this->qrCodeService->generateAndSave($tree);
-            $tree->refresh();
-        }
+        $svg = \SimpleSoftwareIO\QrCode\Facades\QrCode::format('svg')
+            ->size(500)
+            ->margin(2)
+            ->errorCorrection('H')
+            ->generate($tree->public_url);
 
-        $filePath = Storage::disk('public')->path($tree->qr_code_path);
         $fileName = 'QR_' . $tree->id_pohon . '.svg';
 
-        return response()->download($filePath, $fileName, [
+        return response($svg, 200, [
             'Content-Type' => 'image/svg+xml',
+            'Content-Disposition' => 'attachment; filename="' . $fileName . '"',
         ]);
     }
 

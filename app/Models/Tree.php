@@ -184,13 +184,10 @@ class Tree extends Model
     }
 
     /**
-     * URL file QR Code di storage.
+     * URL file QR Code (menggunakan rute dinamis agar selalu berhasil dimuat di Vercel/mobile tanpa dependensi storage lokal).
      */
     public function getQrCodeUrlAttribute(): string
     {
-        if ($this->qr_code_path && Storage::disk('public')->exists($this->qr_code_path)) {
-            return asset('storage/' . $this->qr_code_path);
-        }
         return route('pohon.qrcode.raw', $this->id_pohon);
     }
 }
