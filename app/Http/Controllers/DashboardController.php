@@ -30,7 +30,8 @@ class DashboardController extends Controller
             ->count('lokasi_taman');
 
         // Distribusi Tingkat Pertumbuhan (Pohon, Tiang, Pancang)
-        $tingkatCounts = Tree::selectRaw('COALESCE(tingkat, "Lainnya") as tingkat, count(*) as count')
+        $tingkatCounts = Tree::whereNotNull('tingkat')
+            ->selectRaw('tingkat, count(*) as count')
             ->groupBy('tingkat')
             ->pluck('count', 'tingkat')
             ->toArray();

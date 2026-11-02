@@ -13,41 +13,24 @@ class PublicTreeController extends Controller
     /**
      * Halaman Utama / Portal Eksplorasi Pohon Publik (Tanpa Login)
      */
-    public function index(Request $request)
+    public function index()
     {
-        $query = Tree::query();
-
-        if ($request->filled('q')) {
-            $search = $request->input('q');
-            $query->where(function ($q) use ($search) {
-                $q->where('nama_pohon', 'like', "%{$search}%")
-                  ->orWhere('id_pohon', 'like', "%{$search}%")
-                  ->orWhere('nama_latin', 'like', "%{$search}%")
-                  ->orWhere('lokasi_taman', 'like', "%{$search}%");
-            });
-        }
-
-        $totalTrees = Tree::count();
-        $totalCarbon = Tree::sum('estimasi_karbon');
-        $locationsCount = Tree::whereNotNull('lokasi_taman')->distinct('lokasi_taman')->count('lokasi_taman');
-
-        $trees = $query->orderBy('nama_pohon', 'asc')->paginate(12)->withQueryString();
-
-        return view('welcome', compact('trees', 'totalTrees', 'totalCarbon', 'locationsCount'));
+        return auth()->check()
+            ? redirect()->route('dashboard')
+            : redirect()->route('login');
     }
 
     /**
-     * Halaman Publik Detail Pohon saat QR Code di-scan oleh masyarakat/pengunjung.
-     * Tidak memerlukan login. Mendukung Smart Fallback ID (misal TREE-001 -> SMKKN-001).
+     * Lembar identitas publik spesimen pohon yang diakses melalui pemindaian QR code fisik.
+     * Dapat diakses langsung tanpa autentikasi.
      */
     public function show(string $id_pohon)
     {
         $cleanId = trim($id_pohon);
         $tree = Tree::where('id_pohon', $cleanId)->first();
 
-        // Smart Fallback jika kode ID menggunakan alias atau variasi prefix (misal TREE-001 vs SMKKN-001)
+        // Resolusi kode ID pohon jika terdapat variasi format nomor spesimen
         if (!$tree) {
-            // 1. Ekstrak angka dari ID (misal '001' dari 'TREE-001' atau '1')
             if (preg_match('/(\d+)/', $cleanId, $matches)) {
                 $numPad = str_pad($matches[1], 3, '0', STR_PAD_LEFT);
                 $tree = Tree::where('id_pohon', 'SMKKN-' . $numPad)

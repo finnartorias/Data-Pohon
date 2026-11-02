@@ -94,11 +94,11 @@ class TreeMonitoringTest extends TestCase
 
         $response = $this->actingAs($admin)->get('/dashboard');
         $response->assertStatus(200);
-        $response->assertSee('Dashboard Monitoring Pohon');
+        $response->assertSee('Ringkasan Inventarisasi Pohon');
 
         $responseIndex = $this->actingAs($admin)->get('/trees');
         $responseIndex->assertStatus(200);
-        $responseIndex->assertSee('Data Pohon');
+        $responseIndex->assertSee('Database Inventarisasi Pohon');
     }
 
     /**
@@ -118,8 +118,8 @@ class TreeMonitoringTest extends TestCase
 
         $response = $this->actingAs($admin)->get(route('trees.print-qr', $tree));
         $response->assertStatus(200);
-        $response->assertSee($tree->id_pohon);
-        $response->assertSee('SCAN KODE QR DI ATAS');
+        $response->assertSee($tree->nama_pohon);
+        $response->assertSee('PINDAI DENGAN KAMERA HP');
     }
 
     /**
@@ -200,6 +200,6 @@ class TreeMonitoringTest extends TestCase
         $publicResponse = $this->get('/pohon/public/TREE-NOGPS-01');
         $publicResponse->assertStatus(200);
         $publicResponse->assertSee('Ketapang Kencana Sekolah');
-        $publicResponse->assertSee('Area Terdata');
+        $publicResponse->assertSee('Lokasi:');
     }
 }

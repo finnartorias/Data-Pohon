@@ -110,22 +110,6 @@
                     </div>
                 </div>
 
-                <!-- Tombol Audio Narasi Suara (Web Speech API) -->
-                <div class="p-3 rounded-md bg-slate-50 border border-slate-200 flex items-center justify-between gap-3">
-                    <div class="flex items-center space-x-2.5">
-                        <div class="w-8 h-8 rounded bg-emerald-700 text-white flex items-center justify-center text-xs flex-shrink-0">
-                            <i id="audio-icon" class="fa-solid fa-volume-high"></i>
-                        </div>
-                        <div>
-                            <span class="text-xs font-bold text-slate-800 block" id="audio-title">Narasi Audio Botani</span>
-                            <span class="text-[11px] text-slate-500 block" id="audio-desc">Dengarkan deskripsi botani pohon ini</span>
-                        </div>
-                    </div>
-                    <button type="button" onclick="toggleAudioNarration()" id="btn-audio-action" class="px-3 py-1.5 rounded bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold transition-colors flex-shrink-0">
-                        <span id="btn-audio-text">Putar Suara</span>
-                    </button>
-                </div>
-
                 <!-- Ringkasan Silvikultur & Umur -->
                 <div class="grid grid-cols-2 gap-2.5 pt-1">
                     <div class="p-2.5 rounded bg-slate-50 border border-slate-200">
@@ -261,11 +245,6 @@
 
     <!-- Mobile Sticky Bottom Bar (Utilitarian) -->
     <aside aria-label="Aksi Cepat" class="sm:hidden fixed bottom-0 inset-x-0 bg-white border-t border-slate-200 px-3 py-2 z-40 safe-bottom flex items-center justify-around gap-1 shadow-lg">
-        <button onclick="toggleAudioNarration()" type="button" class="flex-1 flex flex-col items-center justify-center py-1 text-slate-700 active:bg-slate-100 rounded">
-            <i id="bottom-audio-icon" class="fa-solid fa-volume-high text-xs text-emerald-700 mb-0.5"></i>
-            <span id="bottom-audio-label" class="text-[10px] font-semibold">Dengar</span>
-        </button>
-
         <a href="https://api.whatsapp.com/send?text={{ rawurlencode('Pohon ' . $tree->nama_pohon . ' (' . ($tree->nama_latin ?? '') . ') - No. Register ' . $tree->id_pohon . '. Karbon: ' . number_format($tree->estimasi_karbon, 1) . ' kg CO2e. ' . url()->current()) }}" 
            target="_blank" 
            class="flex-1 flex flex-col items-center justify-center py-1 text-emerald-800 active:bg-slate-100 rounded">
@@ -366,65 +345,6 @@
             }
         }
 
-        // Fitur Audio Narasi Suara
-        let isSpeaking = false;
-        let speechSynth = window.speechSynthesis;
-        let speechUtterance = null;
-
-        function toggleAudioNarration() {
-            if (!('speechSynthesis' in window)) {
-                alert('Browser ini tidak mendukung narasi suara.');
-                return;
-            }
-
-            if (isSpeaking) {
-                speechSynth.cancel();
-                setSpeakingState(false);
-                return;
-            }
-
-            const treeName = "{{ addslashes($tree->nama_pohon) }}";
-            const latinName = "{{ addslashes($tree->nama_latin ?? '') }}";
-            const idTree = "{{ $tree->id_pohon }}";
-            const carbonKg = "{{ number_format($tree->estimasi_karbon, 1) }}";
-            const location = "{{ addslashes($tree->lokasi_taman ?? 'Arboretum SMKKN') }}";
-            const age = "{{ $tree->umur }}";
-
-            const textToSpeak = `Pohon ${treeName}. Nama ilmiah: ${latinName}. Nomor register ${idTree}. Berlokasi di ${location}. Taksiran umur ${age}. Estimasi kapasitas serapan karbon sebesar ${carbonKg} kilogram C O 2 e.`;
-
-            speechUtterance = new SpeechSynthesisUtterance(textToSpeak);
-            speechUtterance.lang = 'id-ID';
-            speechUtterance.rate = 0.95;
-
-            speechUtterance.onstart = function() { setSpeakingState(true); };
-            speechUtterance.onend = function() { setSpeakingState(false); };
-            speechUtterance.onerror = function() { setSpeakingState(false); };
-
-            speechSynth.speak(speechUtterance);
-        }
-
-        function setSpeakingState(speaking) {
-            isSpeaking = speaking;
-            const btnText = document.getElementById('btn-audio-text');
-            const audioDesc = document.getElementById('audio-desc');
-            const audioIcon = document.getElementById('audio-icon');
-            const bottomAudioIcon = document.getElementById('bottom-audio-icon');
-            const bottomAudioLabel = document.getElementById('bottom-audio-label');
-
-            if (speaking) {
-                if (btnText) btnText.textContent = 'Hentikan';
-                if (audioDesc) audioDesc.textContent = 'Sedang membacakan narasi...';
-                if (audioIcon) audioIcon.className = 'fa-solid fa-pause';
-                if (bottomAudioIcon) bottomAudioIcon.className = 'fa-solid fa-pause text-xs text-rose-600 mb-0.5';
-                if (bottomAudioLabel) bottomAudioLabel.textContent = 'Stop';
-            } else {
-                if (btnText) btnText.textContent = 'Putar Suara';
-                if (audioDesc) audioDesc.textContent = 'Dengarkan deskripsi botani pohon ini';
-                if (audioIcon) audioIcon.className = 'fa-solid fa-volume-high';
-                if (bottomAudioIcon) bottomAudioIcon.className = 'fa-solid fa-volume-high text-xs text-emerald-700 mb-0.5';
-                if (bottomAudioLabel) bottomAudioLabel.textContent = 'Dengar';
-            }
-        }
     </script>
 </body>
 </html>
