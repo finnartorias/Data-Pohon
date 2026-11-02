@@ -21,14 +21,17 @@ foreach ($storageDirs as $dir) {
     }
 }
 
-// 2. Salin database SQLite yang sudah terisi data pohon ke /tmp jika belum ada
-$tmpDb = '/tmp/database.sqlite';
-if (!file_exists($tmpDb)) {
-    $seededDb = __DIR__ . '/../database/database.sqlite';
-    if (file_exists($seededDb) && filesize($seededDb) > 0) {
-        copy($seededDb, $tmpDb);
-    } else {
-        touch($tmpDb);
+// 2. Salin database SQLite yang sudah terisi data pohon ke /tmp jika mode sqlite aktif
+$activeDbConn = getenv('DB_CONNECTION') ?: 'pgsql';
+if ($activeDbConn === 'sqlite') {
+    $tmpDb = '/tmp/database.sqlite';
+    if (!file_exists($tmpDb)) {
+        $seededDb = __DIR__ . '/../database/database.sqlite';
+        if (file_exists($seededDb) && filesize($seededDb) > 0) {
+            copy($seededDb, $tmpDb);
+        } else {
+            touch($tmpDb);
+        }
     }
 }
 
